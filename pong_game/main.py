@@ -101,6 +101,10 @@ class PongGame(Widget):
         if touch.x > self.width - self.width / 3:
             self.player2.center_y = touch.y
 
+    def on_touch_down(self, touch):
+        if touch.x > self.width / 3 and touch.x < self.width / 3 * 2 and touch.y > self.height / 3 and touch.y < self.height / 3 * 2:
+            self.pause.update_pause_state()
+        # return super(PongPaddle, self).on_touch_down(touch)
 
 class PongApp(App):
     def build(self):
