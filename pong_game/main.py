@@ -34,25 +34,25 @@ class PauseGame(Widget):
 
     def __init__(self, **kwargs):
         super(PauseGame, self).__init__(**kwargs)
-        PauseGame.state = "afasdf"
+        self.state = " "
 
-    def update_pause_state():
-        if PauseGame.state != "paused":
-            PauseGame.state = "paused"
+    def update_pause_state(self):
+        if self.state != "paused":
+            self.state = "paused"
         else:
-            PauseGame.state = " "
+            self.state = " "
 
 
 class PongGame(Widget):
     ball = ObjectProperty(None)
     player1 = ObjectProperty(None)
     player2 = ObjectProperty(None)
+    pause = PauseGame()
 
     def __init__(self, **kwargs):
         super(PongGame, self).__init__(**kwargs)
         self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
         self._keyboard.bind(on_key_down=self._on_keyboard_down)
-        self.pause = PauseGame.state
 
     def _keyboard_closed(self):
         self._keyboard.unbind(on_key_down=self._on_keyboard_down)
@@ -68,8 +68,7 @@ class PongGame(Widget):
         elif keycode[1] == 'down':
             self.player2.center_y -= 20
         elif keycode[1] == 'p':
-            PauseGame.update_pause_state()
-            self.pause = PauseGame.state
+            self.pause.update_pause_state()
         return True
 
     def serve_ball(self, vel=(4, 0)):
@@ -77,7 +76,7 @@ class PongGame(Widget):
         self.ball.velocity = vel
 
     def update(self, dt):
-        if PauseGame.state != "paused":
+        if self.pause.state != "paused":
             self.ball.move()
 
         # bounce of paddles
